@@ -1,0 +1,58 @@
+[
+    {   "name" : "id",
+        "label" : "ID",
+        "datatype" : "number",
+        "create_disabled" : true,
+        "edit_disabled" : true,
+        "required" : false
+    },
+    {
+        "name" : "emp_no",
+        "label": "Emp No",
+        "datatype" : "number",
+        "create_disabled" : false,
+        "edit_disabled" : true,
+        "required" : true
+    },
+    {
+        "name" : "ldap_uname",
+        "label": "Username",
+        "datatype" : "text",
+        "create_disabled" : false,
+        "edit_disabled" : false,
+        "required" : true
+    },
+    {
+        "name" : "full_name",
+        "label" : "Full Name",
+        "datatype" : "text",
+        "create_disabled" : false,
+        "edit_disabled" : false,
+        "required" : false
+    },
+    {
+        "name" : "role_alias",
+        "label" : "Role",
+        "datatype" : "text",
+        "create_disabled" : false,
+        "edit_disabled" : true,
+        "required" : true
+    },
+    {
+        "name" : "ldap_id",
+        "label" : "LDap ID",
+        "datatype" : "number",
+        "create_disabled" : false,
+        "edit_disabled" : false,
+        "required" : true
+    },
+    {
+        "name" : "state",
+        "label" : "State",
+        "datatype" : "number",
+        "create_disabled" : false,
+        "edit_disabled" : false,
+        "required" : true
+    }
+    
+]
