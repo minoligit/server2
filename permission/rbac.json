@@ -1,0 +1,19 @@
+{
+    "AIP" : {
+        "users" : { "edit" : false, "delete" : true,"filter" : false, "create" : true, "export" : true},
+        "projects" : { "edit" : false, "delete" : true},
+        "servers" : { "edit" : false, "delete" : true}
+    },
+
+    "PM" : {
+        "users" :{ "edit" : false, "delete" : true},
+        "projects" :{ "edit" : false, "delete" : true},
+        "servers" : { "edit" : false, "delete" : true}
+    },
+
+    "PDM" : {
+        "users" :{ "edit" : false, "delete" : true},
+        "projects" :{ "edit" : false, "delete" : true},
+        "servers" :{ "edit" : false, "delete" : true}
+    }
+}

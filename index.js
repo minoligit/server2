@@ -9,9 +9,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors({exposedHeaders: ['Content-Range']}));
 
-const projectColumns = require('./columns/projects.json');
-const serverColumns = require('./columns/servers.json');
-const userColumns = require('./columns/users.json');
+const columns = require('./permission/columns.json');
+const { json } = require('body-parser');
 
 const db = mysql.createPool({
     host: "localhost",
@@ -21,14 +20,24 @@ const db = mysql.createPool({
 });
 
 //Get Project Columns
-app.get('/getProjectColumns',(req,res) =>{
-    res.send(JSON.stringify(projectColumns));
-});
-app.get('/getServerColumns',(req,res) =>{
-    res.end(JSON.stringify(serverColumns));
-});
-app.get('/getUserColumns',(req,res) =>{
-    res.end(JSON.stringify(userColumns));
+app.get('/getAccess/:role/:resource/:option',(req,res) =>{
+    const role = req.params.role;
+    const resource = req.params.resource;
+    const option = req.params.option;
+
+    Object.entries(columns).forEach(([key1, value1]) => {
+        if(key1==role){
+            Object.entries(value1).forEach(([key2,value2]) => {
+                if(key2==resource){
+                    Object.entries(value2).forEach(([key3,value3]) => {
+                        if(key3==option){
+                            res.send(value3);
+                        }
+                    })
+                }
+            })
+        }
+    });
 });
 
 //Login Operations
@@ -46,7 +55,8 @@ app.post('/verifyLogin',(req,res) => {
 app.post('/getLoggedUser',(req,res) => {
 
     const empNo = req.body.userId;
-    const sqlLoggedUser = "SELECT _user.*,_role.* FROM _user LEFT JOIN _role ON _user.role_id=_role.role_id WHERE _user.emp_no ="+empNo;
+    const sqlLoggedUser = "SELECT _user.*,_role.* FROM _user LEFT JOIN _role ON _user.role_id=_role.role_id WHERE _user.emp_no ="
+        +empNo+" LIMIT 1";
     db.query(sqlLoggedUser, (error, result) => {
         res.send(result);
     });
@@ -106,7 +116,7 @@ app.put('/users/:id',(req,res) => {
 
 });
 app.put('/users',(req,res) => {
-    console.log("mmm");
+    console.log("mmm",req.body);
 });
 app.delete('/users/:id',(req,res) => {
 
@@ -121,6 +131,78 @@ app.get('/userLogins/:id',(req,res) => {
         res.header('Content-Range',result.length);
         res.send(result[0]);
     }); 
+});
+app.put('/editUsers/:role/:ids',(req,res) => {
+
+    const ids = JSON.parse(req.params.ids);
+    const headers = columns[req.params.role]["users"]["list"];
+    const all = req.body;
+
+    var sqlStr = "UPDATE _user SET ";
+
+    for(var value in all){
+        if(all[value]!==null){
+            sqlStr += (headers[value].field+"='"+all[value]+"',");   
+        }    
+    }
+    sqlStr = sqlStr.slice(0, -1);
+    sqlStr += (" WHERE ( ");
+    for(var value in ids){
+        sqlStr += ("user_id="+ids[value]+"||");
+    }
+    sqlStr = sqlStr.slice(0, -2);
+    sqlStr += (" )");
+
+    db.query(sqlStr, (error, result) => {
+        res.send(result);
+    });
+});
+
+app.put('/updateCell/:id/:column/:value',(req,res) => {
+
+    const sqlStr = "UPDATE _user SET "+req.params.column+"='"+req.params.value+"' WHERE user_id="+req.params.id+"";
+    db.query(sqlStr, (error, result) => {
+        res.send(result);
+    });
+});
+app.get('/getEditColumns/:role/:resource',(req,res) =>{
+    const role = req.params.role;
+    const resource = req.params.resource;
+
+    Object.entries(columns).forEach(([key1, value1]) => {
+        if(key1==role){
+            Object.entries(value1).forEach(([key2,value2]) => {
+                if(key2==resource){
+                    Object.entries(value2).forEach(([key3,value3]) => {
+                        if(key3=='list'){
+                            res.send(value3);
+                        }
+                    })
+                }
+            })
+        }
+    });
+});
+app.get('/getEditUsers/:role/:ids',(req,res) => {
+
+    const ids = JSON.parse(req.params.ids);
+    const headers = columns[req.params.role]["users"]["list"];
+
+    var sqlStr = "SELECT user_id AS ";
+    for(var head in headers){
+        sqlStr += (headers[head].field+",");   
+    }
+    sqlStr = sqlStr.slice(0, -1);
+
+    sqlStr += (" FROM _user WHERE ");
+    for(var num in ids){
+        sqlStr += ("user_id="+ids[num]+" || ");   
+    }
+    sqlStr = sqlStr.slice(0, -3);
+
+    db.query(sqlStr, (error, result) => {
+        res.send(result);
+    });
 });
 
 

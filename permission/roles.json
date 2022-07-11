@@ -1,0 +1,25 @@
+{
+    "AIP" : [
+        { "resource": "home", "action": [] },
+        { "resource": "dashboard", "action": []  },
+        { "resource": "users", "action": ["create", "edit","delete", "export"]  },
+        { "resource": "projects", "action": [] },
+        { "resource": "servers", "action": []  }
+    ],
+
+    "PM" : [
+        { "resource": "home", "action": [] },
+        { "resource": "dashboard", "action": [] },
+        { "resource": "users", "action": ["edit", "export"] },
+        { "resource": "projects", "action": ["edit", "export"]  },
+        { "resource": "servers", "action": []  }
+    ],
+
+    "PDM" : [
+        { "resource": "home", "action": [] },
+        { "resource": "dashboard", "action": [] },
+        { "resource": "users", "action": ["create", "edit", "export"] },
+        { "resource": "projects", "action": ["create", "edit","delete"] },
+        { "resource": "servers", "action": ["create", "edit","delete", "export"]  }
+    ]
+}

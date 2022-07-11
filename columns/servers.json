@@ -1,41 +1,136 @@
-[
-    {   "name" : "id",
-        "label" : "ID",
-        "datatype" : "number",
-        "create_disabled" : true,
-        "edit_disabled" : true,
-        "required" : false
+{
+    "AIP" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "svr_alias",
+            "label": "Alias",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : true,
+            "required" : true
+        },
+        {
+            "name" : "dir_svr_ip",
+            "label": "Directory Server IP",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "clip_svr_ip",
+            "label" : "Clip Server Ip",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "mvm_name",
+            "label" : "MVM Name",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        }  
+    ],
+    "buttons" : []
     },
-    {
-        "name" : "svr_alias",
-        "label": "Alias",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : true,
-        "required" : true
+
+    "PM" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "svr_alias",
+            "label": "Alias",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : true,
+            "required" : true
+        },
+        {
+            "name" : "dir_svr_ip",
+            "label": "Directory Server IP",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "clip_svr_ip",
+            "label" : "Clip Server Ip",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "mvm_name",
+            "label" : "MVM Name",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        }  
+    ],
+    "buttons" : []
     },
-    {
-        "name" : "dir_svr_ip",
-        "label": "Directory Server IP",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    },
-    {
-        "name" : "clip_svr_ip",
-        "label" : "Clip Server Ip",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    },
-    {
-        "name" : "mvm_name",
-        "label" : "MVM Name",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    }    
-]
+
+    "PDM" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "svr_alias",
+            "label": "Alias",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : true,
+            "required" : true
+        },
+        {
+            "name" : "dir_svr_ip",
+            "label": "Directory Server IP",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "clip_svr_ip",
+            "label" : "Clip Server Ip",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "mvm_name",
+            "label" : "MVM Name",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        }  
+    ],
+    "buttons" : []
+    }
+}

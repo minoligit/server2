@@ -1,0 +1,175 @@
+{
+    "AIP" : {
+        "users" : {
+            "list" : [
+                { "field" : "id", "title" : "ID","datatype" : "number", "editable" : "never" },
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number", "editable" : "never" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "editable" : "onUpdate"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "editable" : "onUpdate"},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "editable" : "never"},
+                { "field" : "state", "title" : "State", "datatype" : "number", "editable" : "never"}
+            ],
+            "edit" : [{}],
+            "filter" : [{}],
+            "export" : [{}]
+        },
+        "projects" : {
+            "list" : [
+                { "field" : "id", "title" : "Project ID", "datatype" : "number"},
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text"},
+                { "field" : "status", "title" : "Status", "datatype" : "text"} 
+            ],
+            "filter" : [{}]
+        },
+        "servers" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "svr_alias", "title": "Alias", "datatype" : "text"},
+                { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text"},
+                { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text"},
+                { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text"} 
+            ],
+            "filter" : [{}]        
+        }
+    },
+    "PM" : {
+        "users" : {
+            "list" : [
+                { "field" : "id", "title" : "ID","datatype" : "number" },
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text" },
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number"},
+                { "field" : "state", "title" : "State", "datatype" : "number"}
+            ],
+            "create" : [
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number", "required" : "true" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "required" : "true"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "required" : "true"},
+                { "field" : "state", "title" : "State", "datatype" : "number", "required" : "true"}
+            ],
+            "edit" : [
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number", "required" : "true"},
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "required" : "true"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "required" : "true"},
+                { "field" : "state", "title" : "State", "datatype" : "number", "required" : "true"}
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]
+        },
+        "projects" : {
+            "list" : [
+                { "field" : "id", "title" : "Project ID", "datatype" : "number"},
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text"},
+                { "field" : "svr_alias", "title": "Server", "datatype" : "text"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text"},
+                { "field" : "status", "title" : "Status", "datatype" : "text"} 
+            ],
+            "edit" : [
+                { "field" : "id", "title" : "Project ID", "datatype" : "number", "required" : "true"},
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text", "required" : "true"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text", "required" : "true"},
+                { "field" : "status", "title" : "Status", "datatype" : "text", "required" : "true"} 
+            ],
+            "filter" : [{}],
+            "export" : [{}]
+        },
+        "servers" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "svr_alias", "title": "Alias", "datatype" : "text"},
+                { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text"},
+                { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text"},
+                { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text"} 
+            ],
+            "filter" : [{}]
+        }
+    },
+    "PDM" : {
+        "users" : {
+            "list" : [
+                { "field" : "id", "title" : "ID","datatype" : "number" },
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text" },
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number"},
+                { "field" : "state", "title" : "State", "datatype" : "number"}
+            ],
+            "create" : [
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number", "required" : "true" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "required" : "true"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "required" : "true"},
+                { "field" : "state", "title" : "State", "datatype" : "number", "required" : "true"}
+            ],
+            "edit" : [
+                { "field" : "emp_no", "title": "Emp No", "datatype" : "number", "required" : "true" },
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "required" : "true"},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "required" : "true"},
+                { "field" : "state", "title" : "State", "datatype" : "number", "required" : "true"}
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]
+        },
+        "projects" : {
+            "list" : [
+                { "field" : "id", "title" : "Project ID", "datatype" : "number"},
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text"},
+                { "field" : "svr_alias", "title": "Server", "datatype" : "text"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text"},
+                { "field" : "status", "title" : "Status", "datatype" : "text"} 
+            ],
+            "create" : [
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text", "required" : "true"},
+                { "field" : "svr_alias", "title": "Server", "datatype" : "text", "required" : "true"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text", "required" : "true"},
+                { "field" : "status", "title" : "Status", "datatype" : "text", "required" : "true"} 
+            ],
+            "edit" : [
+                { "field" : "pro_name", "title": "Project Name", "datatype" : "text", "required" : "true"},
+                { "field" : "svr_alias", "title": "Server", "datatype" : "text", "required" : "true"},
+                { "field" : "tech_name", "title" : "Technology", "datatype" : "text", "required" : "true"},
+                { "field" : "status", "title" : "Status", "datatype" : "text", "required" : "true"} 
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]
+        },
+        "servers" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "svr_alias", "title": "Alias", "datatype" : "text"},
+                { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text"},
+                { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text"},
+                { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text"} 
+            ],
+            "create" : [
+                { "field" : "svr_alias", "title": "Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text", "required" : "true"},
+                { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text", "required" : "true"},
+                { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text", "required" : "true"} 
+            ],
+            "edit" : [
+                { "field" : "svr_alias", "title": "Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text", "required" : "true"},
+                { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text", "required" : "true"},
+                { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text", "required" : "true"} 
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]
+        }
+    }
+}

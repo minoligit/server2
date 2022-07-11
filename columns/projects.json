@@ -1,41 +1,128 @@
-[
-    {   "name" : "id",
-        "label" : "Project ID",
-        "datatype" : "number",
-        "create_disabled" : true,
-        "edit_disabled" : true,
-        "required" : false
+{
+    "AIP" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "Project ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "pro_name",
+            "label": "Project Name",
+            "datatype" : "text",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : true
+        },
+        {
+            "name" : "tech_name",
+            "label" : "Technology",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "status",
+            "label" : "Status",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        } 
+    ],
+    "buttons" : []
     },
-    {
-        "name" : "pro_name",
-        "label": "Project Name",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
+
+    "PM" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "Project ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "pro_name",
+            "label": "Project Name",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "svr_alias",
+            "label": "Server",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "tech_name",
+            "label" : "Technology",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "status",
+            "label" : "Status",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        } 
+    ],
+    "buttons" : []
     },
-    {
-        "name" : "svr_alias",
-        "label": "Server",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    },
-    {
-        "name" : "tech_name",
-        "label" : "Technology",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    },
-    {
-        "name" : "status",
-        "label" : "Status",
-        "datatype" : "text",
-        "create_disabled" : false,
-        "edit_disabled" : false,
-        "required" : true
-    }    
-]
+
+    "PDM" : {
+        "columns" : [
+        {   "name" : "id",
+            "label" : "Project ID",
+            "datatype" : "number",
+            "create_disabled" : true,
+            "edit_disabled" : true,
+            "required" : false
+        },
+        {
+            "name" : "pro_name",
+            "label": "Project Name",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "svr_alias",
+            "label": "Server",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "tech_name",
+            "label" : "Technology",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        },
+        {
+            "name" : "status",
+            "label" : "Status",
+            "datatype" : "text",
+            "create_disabled" : false,
+            "edit_disabled" : false,
+            "required" : true
+        } 
+    ],
+    "buttons" : []
+    }
+}
