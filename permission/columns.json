@@ -9,7 +9,14 @@
                 { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "editable" : "never"},
                 { "field" : "state", "title" : "State", "datatype" : "number", "editable" : "never"}
             ],
-            "edit" : [{}],
+            "edit" : [
+                { "field" : "id", "title": "Id", "datatype" : "number", "required" : true, "editDisabled" : true},
+                { "field" : "ldap_uname", "title": "Username", "datatype" : "text", "required" : true, "editDisabled" : false},
+                { "field" : "full_name", "title" : "Full Name", "datatype" : "text", "required" : true, "editDisabled" : false},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : true, "editDisabled" : true},
+                { "field" : "ldap_id", "title" : "LDap ID", "datatype" : "number", "required" : true, "editDisabled" : true},
+                { "field" : "state", "title" : "State", "datatype" : "number", "required" : true, "editDisabled" : true}
+            ],
             "filter" : [{}],
             "export" : [{}]
         },
@@ -29,6 +36,15 @@
                 { "field" : "dir_svr_ip", "title": "Directory Server IP", "datatype" : "text"},
                 { "field" : "clip_svr_ip", "title" : "Clip Server Ip", "datatype" : "text"},
                 { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text"} 
+            ],
+            "filter" : [{}]        
+        },
+        "roles" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text"},
+                { "field" : "role_name", "title": "Role Name", "datatype" : "text"},
+                { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
             ],
             "filter" : [{}]        
         }
@@ -90,6 +106,15 @@
                 { "field" : "mvm_name", "title" : "MVM Name", "datatype" : "text"} 
             ],
             "filter" : [{}]
+        },
+        "roles" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text"},
+                { "field" : "role_name", "title": "Role Name", "datatype" : "text"},
+                { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
+            ],
+            "filter" : [{}]        
         }
     },
     "PDM" : {
@@ -170,6 +195,23 @@
             "delete" : [{}],
             "filter" : [{}],
             "export" : [{}]
+        },
+        "roles" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text"},
+                { "field" : "role_name", "title": "Role Name", "datatype" : "text"},
+                { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
+            ],
+            "edit" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "role_name", "title": "Role Name", "datatype" : "text", "required" : "true"},
+                { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text", "required" : "true"}
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]        
         }
     }
 }

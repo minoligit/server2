@@ -18,6 +18,12 @@ const db = mysql.createPool({
     password: "",
     database: "_me_production (1)"
 });
+const db2 = mysql.createPool({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "react_app"
+});
 
 //Get Project Columns
 app.get('/getAccess/:role/:resource/:option',(req,res) =>{
@@ -31,6 +37,25 @@ app.get('/getAccess/:role/:resource/:option',(req,res) =>{
                 if(key2==resource){
                     Object.entries(value2).forEach(([key3,value3]) => {
                         if(key3==option){
+                            res.send(value3);
+                        }
+                    })
+                }
+            })
+        }
+    });
+});
+//Get Bulk Edit Columns
+app.get('/getEditColumns/:role/:resource',(req,res) =>{
+    const role = req.params.role;
+    const resource = req.params.resource;
+
+    Object.entries(columns).forEach(([key1, value1]) => {
+        if(key1==role){
+            Object.entries(value1).forEach(([key2,value2]) => {
+                if(key2==resource){
+                    Object.entries(value2).forEach(([key3,value3]) => {
+                        if(key3=='list'){
                             res.send(value3);
                         }
                     })
@@ -112,8 +137,8 @@ app.put('/users/:id',(req,res) => {
             console.log(error);
             res.send('Something went wrong. Please try again.');
         }
+        res.send(null);
     }); 
-
 });
 app.put('/users',(req,res) => {
     console.log("mmm",req.body);
@@ -162,25 +187,7 @@ app.put('/updateCell/:id/:column/:value',(req,res) => {
 
     const sqlStr = "UPDATE _user SET "+req.params.column+"='"+req.params.value+"' WHERE user_id="+req.params.id+"";
     db.query(sqlStr, (error, result) => {
-        res.send(result);
-    });
-});
-app.get('/getEditColumns/:role/:resource',(req,res) =>{
-    const role = req.params.role;
-    const resource = req.params.resource;
-
-    Object.entries(columns).forEach(([key1, value1]) => {
-        if(key1==role){
-            Object.entries(value1).forEach(([key2,value2]) => {
-                if(key2==resource){
-                    Object.entries(value2).forEach(([key3,value3]) => {
-                        if(key3=='list'){
-                            res.send(value3);
-                        }
-                    })
-                }
-            })
-        }
+        res.send(error);
     });
 });
 app.get('/getEditUsers/:role/:ids',(req,res) => {
@@ -405,6 +412,118 @@ app.delete('/servers/:id',(req,res) => {
     }); 
 });
 
+//Roles Operations
+app.get('/roles',(req,res) => {
+
+    const column = JSON.parse(req.query.filter);
+    var qryStr = "1 ";
+    const start = (JSON.parse(req.query.range)[0]);
+    const end = (JSON.parse(req.query.range)[1]);
+    const sortBy = (JSON.parse(req.query.sort)[0]);
+    const order = (JSON.parse(req.query.sort)[1]);
+
+    if(column!=null){
+        for(var head in column){
+            qryStr += ("&& "+head+"='"+column[head]+"' ");
+        }
+    }
+    const sqlSelectAll = "CALL get_all_role(\"("+qryStr+")\",\""+sortBy+"\",\""+order+"\","+start+","+end+");";
+    db.query(sqlSelectAll, (error, result) => {
+        res.header('Content-Range',result.length);
+        res.send(result[0]);
+    }); 
+});
+app.post('/roles',(req,res) => {
+    const sqlQry = "CALL create_role("+req.body.emp_no+",'"+req.body.ldap_uname+"','"+
+        req.body.full_name+"','"+req.body.role_alias+"','"+req.body.ldap_id+"','"+req.body.state+"');";    
+    db.query(sqlQry, (error, result) => {
+        if(error){
+            console.log(error);
+            res.send('Something went wrong. Please try again.');
+        }
+    }); 
+});
+app.get('/roles/:id',(req,res) => {
+    // console.log(req.params.id);
+});
+app.put('/roles/:id',(req,res) => {
+
+    const column = req.body;
+    var sqlUpdateRow = "";
+
+    for(var head in column){
+        sqlUpdateRow += (head+"='"+column[head]+"',");
+    }
+    sqlUpdateRow = sqlUpdateRow.slice(0, -1);
+
+    const sqlQry = "CALL update_role("+req.params.id+",\""+sqlUpdateRow+"\");";
+    db.query(sqlQry, (error, result) => {
+        if(error){
+            console.log(error);
+            res.send('Something went wrong. Please try again.');
+        }
+        res.send(null);
+    }); 
+});
+app.put('/roles',(req,res) => {
+    console.log("mmm",req.body);
+});
+app.delete('/roles/:id',(req,res) => {
+
+    const sqlQry = "CALL delete_role("+req.params.id+");";
+    db.query(sqlQry, (error, result) => {
+        console.log(error);
+        res.send(result);
+    }); 
+});
+app.put('/updateCell/:id/:column/:value',(req,res) => {
+
+    const sqlStr = "UPDATE _role SET "+req.params.column+"='"+req.params.value+"' WHERE user_id="+req.params.id+"";
+    db.query(sqlStr, (error, result) => {
+        res.send(error);
+    });
+});
+
+
+//Notifications Operations
+app.get('/notifications',(req,res) => {
+
+    const column = JSON.parse(req.query.filter);
+    var qryStr = "archieve=0 ";
+    const start = (JSON.parse(req.query.range)[0]);
+    const end = (JSON.parse(req.query.range)[1]);
+    const sortBy = (JSON.parse(req.query.sort)[0]);
+    const order = (JSON.parse(req.query.sort)[1]);
+
+    if(column!=null){
+        for(var head in column){
+            qryStr += ("&& "+head+"='"+column[head]+"' ");
+        }
+    }
+    const sqlQry = ("SELECT ntf_id AS id, title,content,dateTime,status,archieve FROM notifications WHERE ("+
+        qryStr+") ORDER BY dateTime");
+    db2.query(sqlQry, (error, result) => {
+        res.header('Content-Range',result.length);
+        res.send(result);
+    }); 
+});
+app.get('/notifications/:id',(req,res) => {
+});
+app.get('/getUnreadCount/:id',(req,res) => {
+    
+    const sqlQry = ("SELECT COUNT(ntf_id) as count FROM notifications WHERE (status=0 && emp_no ="+req.params.id+")");
+    db2.query(sqlQry, (error, result) => {
+        res.send(result);
+    }); 
+});
+app.delete('/notifications/:id',(req,res) => {
+
+    // const sqlQry = "DELETE FROM notifications WHERE ntf_id="+req.params.id+");";
+    // db2.query(sqlQry, (error, result) => {
+    //     console.log(error);
+    // }); 
+    console.log(req.params.id);
+});
 
 const PORT = 8080;
 app.listen(PORT, function() {
