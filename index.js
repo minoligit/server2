@@ -183,7 +183,7 @@ app.put('/editUsers/:role/:ids',(req,res) => {
     });
 });
 
-app.put('/updateCell/:id/:column/:value',(req,res) => {
+app.put('/updateCellUser/:id/:column/:value',(req,res) => {
 
     const sqlStr = "UPDATE _user SET "+req.params.column+"='"+req.params.value+"' WHERE user_id="+req.params.id+"";
     db.query(sqlStr, (error, result) => {
@@ -230,6 +230,7 @@ app.get('/projects',(req,res) => {
     }
     const sqlQry = "CALL get_all_projects(\"("+qryStr+")\",\""+sortBy+"\",\""+order+"\","+start+","+end+");";
     db.query(sqlQry, (error, result) => {
+        console.log(error);
         res.header('Content-Range',result.length);
         res.send(result[0]);
     }); 
@@ -285,16 +286,16 @@ app.delete('/projects/:id',(req,res) => {
     }); 
 });
 
-app.get('/proUsers/:id',(req,res) => {
-    const sqlQry = "CALL get_project_users("+req.params.id+");";
-    db.query(sqlQry, (error, result) => {
-        res.header('Content-Range',result.length);
-        res.send(result[0]);
-    }); 
-});
-app.get('/proUsers/:id',(req,res) => {
-    console.log(req.params.id);
-});
+// app.get('/proUsers/:id',(req,res) => {
+//     const sqlQry = "CALL get_project_users("+req.params.id+");";
+//     db.query(sqlQry, (error, result) => {
+//         res.header('Content-Range',result.length);
+//         res.send(result[0]);
+//     }); 
+// });
+// app.get('/proUsers/:id',(req,res) => {
+//     console.log(req.params.id);
+// });
 app.put('/proUsers/:id',(req,res) => {
 
     const column = req.body;
@@ -305,14 +306,15 @@ app.put('/proUsers/:id',(req,res) => {
     }
     sqlUpdateRow = sqlUpdateRow.slice(0, -1);
 
-    // const sqlQry = "CALL update_user("+req.params.id+",\""+sqlUpdateRow+"\");";
-    // db.query(sqlQry, (error, result) => {
-    //     if(error){
-    //         console.log(error);
-    //         res.send('Something went wrong. Please try again.');
-    //     }
-    // }); 
-    console.log(sqlUpdateRow);
+    const sqlQry = "CALL get_project_users("+req.params.id+",\""+sqlUpdateRow+"\");";
+
+    db.query(sqlQry, (error, result) => {
+        if(error){
+            console.log(error);
+            res.send('Something went wrong. Please try again.');
+        }
+        res.send(result);
+    }); 
 
 });
 app.get('/proServers/:id',(req,res) => {
@@ -323,7 +325,19 @@ app.get('/proServers/:id',(req,res) => {
         res.send(result[0]);
     }); 
 });
+app.get('/proUsers/:id',(req,res) => {
 
+    const start = (JSON.parse(req.query.range)[0]);
+    const end = (JSON.parse(req.query.range)[1]);
+    const sortBy = (JSON.parse(req.query.sort)[0]);
+    const order = (JSON.parse(req.query.sort)[1]);
+
+    const sqlQry = "CALL test_run(\""+sortBy+"\",\""+order+"\","+start+","+end+","+req.params.id+");";
+    db.query(sqlQry, (error, result) => {
+        res.header('Content-Range',result.length);
+        res.send(result[0]);
+    }); 
+});
 // app.get('/projects/technologies/:id',(req,res) => {
 //     console.log(req.body.data);
 //     // const sqlQry = "CALL update_projects("+req.params.id+",'"+req.params.pro_name+"',"+req.params.svr_id+",'"+
@@ -476,13 +490,107 @@ app.delete('/roles/:id',(req,res) => {
         res.send(result);
     }); 
 });
-app.put('/updateCell/:id/:column/:value',(req,res) => {
+app.put('/updateCellRole/:id/:column/:value',(req,res) => {
 
-    const sqlStr = "UPDATE _role SET "+req.params.column+"='"+req.params.value+"' WHERE user_id="+req.params.id+"";
+    const sqlStr = "UPDATE _role SET "+req.params.column+"='"+req.params.value+"' WHERE role_id="+req.params.id+"";
     db.query(sqlStr, (error, result) => {
         res.send(error);
     });
 });
+app.get('/roleDirMountOpt',(req,res) => {
+
+    const column = JSON.parse(req.query.filter);
+    var qryStr = "1 ";
+    const start = (JSON.parse(req.query.range)[0]);
+    const end = (JSON.parse(req.query.range)[1]);
+    const sortBy = (JSON.parse(req.query.sort)[0]);
+    const order = (JSON.parse(req.query.sort)[1]);
+
+    if(column!=null){
+        for(var head in column){
+            qryStr += ("&& "+head+"='"+column[head]+"' ");
+        }
+    }
+    const sqlSelectAll = "CALL get_role_dir_mount_opt(\"("+qryStr+")\",\""+sortBy+"\",\""+order+"\","+start+","+end+");";
+    db.query(sqlSelectAll, (error, result) => {
+        res.header('Content-Range',result.length);
+        res.send(result[0]);
+    }); 
+});
+
+//Technologies Operations
+app.get('/technologies',(req,res) => {
+
+    const column = JSON.parse(req.query.filter);
+    var qryStr = "1 ";
+    const start = (JSON.parse(req.query.range)[0]);
+    const end = (JSON.parse(req.query.range)[1]);
+    const sortBy = (JSON.parse(req.query.sort)[0]);
+    const order = (JSON.parse(req.query.sort)[1]);
+
+    if(column!=null){
+        for(var head in column){
+            qryStr += ("&& "+head+"='"+column[head]+"' ");
+        }
+    }
+    const sqlSelectAll = "CALL get_all_technology(\"("+qryStr+")\",\""+sortBy+"\",\""+order+"\","+start+","+end+");";
+    db.query(sqlSelectAll, (error, result) => {
+        res.header('Content-Range',result.length);
+        res.send(result[0]);
+    }); 
+});
+app.post('/technologies',(req,res) => {
+    const sqlQry = "CALL create_role("+req.body.emp_no+",'"+req.body.ldap_uname+"','"+
+        req.body.full_name+"','"+req.body.role_alias+"','"+req.body.ldap_id+"','"+req.body.state+"');";    
+    db.query(sqlQry, (error, result) => {
+        if(error){
+            console.log(error);
+            res.send('Something went wrong. Please try again.');
+        }
+    }); 
+});
+app.get('/technologies/:id',(req,res) => {
+    // console.log(req.params.id);
+});
+app.put('/technologies/:id',(req,res) => {
+
+    const column = req.body;
+    var sqlUpdateRow = "";
+
+    for(var head in column){
+        sqlUpdateRow += (head+"='"+column[head]+"',");
+    }
+    sqlUpdateRow = sqlUpdateRow.slice(0, -1);
+
+    const sqlQry = "CALL update_technology("+req.params.id+",\""+sqlUpdateRow+"\");";
+    db.query(sqlQry, (error, result) => {
+        if(error){
+            console.log(error);
+            res.send('Something went wrong. Please try again.');
+        }
+        res.send(null);
+    }); 
+});
+app.put('/technologies',(req,res) => {
+    console.log("mmm",req.body);
+});
+app.delete('/technologies/:id',(req,res) => {
+
+    const sqlQry = "CALL delete_role("+req.params.id+");";
+    db.query(sqlQry, (error, result) => {
+        console.log(error);
+        res.send(result);
+    }); 
+});
+app.put('/updateCellTech/:id/:column/:value',(req,res) => {
+
+    const sqlStr = "UPDATE _technology SET "+req.params.column+"='"+req.params.value+"' WHERE tech_id="+req.params.id+"";
+    db.query(sqlStr, (error, result) => {
+        console.log(error);
+        res.send(error);
+    });
+});
+
 
 
 //Notifications Operations

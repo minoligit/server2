@@ -47,6 +47,14 @@
                 { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
             ],
             "filter" : [{}]        
+        },
+        "technologies" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "tech_name", "title": "Technology Name", "datatype" : "text"},
+                { "field" : "tech_clip_path", "title" : "Technology Clip Path", "datatype" : "text"}
+            ],
+            "filter" : [{}]        
         }
     },
     "PM" : {
@@ -113,6 +121,14 @@
                 { "field" : "role_alias", "title": "Role Alias", "datatype" : "text"},
                 { "field" : "role_name", "title": "Role Name", "datatype" : "text"},
                 { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
+            ],
+            "filter" : [{}]        
+        },
+        "technologies" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "tech_name", "title": "Technology Name", "datatype" : "text"},
+                { "field" : "tech_clip_path", "title" : "Technology Clip Path", "datatype" : "text"}
             ],
             "filter" : [{}]        
         }
@@ -203,11 +219,36 @@
                 { "field" : "role_name", "title": "Role Name", "datatype" : "text"},
                 { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text"}
             ],
+            "create" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number", "required" : "true"},
+                { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
+                { "field" : "role_name", "title": "Role Name", "datatype" : "text", "required" : "true"},
+                { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text", "required" : "true"}
+            ],
             "edit" : [
                 { "field" : "id", "title" : "ID", "datatype" : "number", "required" : "true"},
                 { "field" : "role_alias", "title": "Role Alias", "datatype" : "text", "required" : "true"},
                 { "field" : "role_name", "title": "Role Name", "datatype" : "text", "required" : "true"},
                 { "field" : "is_parent", "title" : "Is Parent", "datatype" : "text", "required" : "true"}
+            ],
+            "delete" : [{}],
+            "filter" : [{}],
+            "export" : [{}]        
+        },
+        "technologies" : {
+            "list" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number"},
+                { "field" : "tech_name", "title": "Technology Name", "datatype" : "text"},
+                { "field" : "tech_clip_path", "title" : "Technology Clip Path", "datatype" : "text"}
+            ],
+            "create" : [
+                { "field" : "tech_name", "title": "Technology Name", "datatype" : "text", "required" : "true"},
+                { "field" : "tech_clip_path", "title" : "Technology Clip Path", "datatype" : "text", "required" : "true"}
+            ],
+            "edit" : [
+                { "field" : "id", "title" : "ID", "datatype" : "number", "required" : "true", "editDisabled" : true},
+                { "field" : "tech_name", "title": "Technology Name", "datatype" : "text", "required" : "true", "editDisabled" : false},
+                { "field" : "tech_clip_path", "title" : "Technology Clip Path", "datatype" : "text", "required" : "true", "editDisabled" : false}
             ],
             "delete" : [{}],
             "filter" : [{}],
