@@ -56,14 +56,14 @@ select.get('/_mount_option_list',(req,res) => {
 });
 select.get('/_client_path_list',(req,res) => {
 
-    const sqlQry = "SELECT DISTINCT client_path FROM _directory;";
+    const sqlQry = "SELECT DISTINCT client_path,dir_id FROM _directory;";
     db.query(sqlQry, (error, result) => {
         res.send(result);
     }); 
 });
 select.get('/_portion_list',(req,res) => {
 
-    const sqlQry = "SELECT DISTINCT portion,portion_id FROM _project_day_portion;";
+    const sqlQry = "SELECT DISTINCT portion,portion_id FROM _project_day_protion;";
     db.query(sqlQry, (error, result) => {
         res.send(result);
     }); 

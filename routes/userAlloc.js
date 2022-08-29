@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const db = require('../connection.js');
+const {isList,isFilter,printList} = require('../functions.js');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -84,7 +85,7 @@ router.post('/_user_relationship_list',(req,res) => {
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
@@ -119,11 +120,11 @@ router.put('/_user_relationship_list/:id',(req,res) => {
         }
     }
     sqlUpdateRow = sqlUpdateRow.slice(0, -1);
-    const sqlQry = ("UPDATE _user_relationship SET "+sqlUpdateRow+" WHERE rel_id="+req.body.id+";");
+    const sqlQry = ("UPDATE _user_relationship SET "+sqlUpdateRow+" WHERE rel_id="+req.params.id+";");
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     });
@@ -132,10 +133,11 @@ router.put('/_user_relationship_list/:id',(req,res) => {
 //Delete user allocation
 router.delete('/_user_relationship_list/:id',(req,res) => {
 
-    const sqlQry = "DELETE FROM _user_relationship WHERE rel_id = "+req.params.id+";";
+    const sqlQry = "DELETE FROM _user_relationship WHERE rel_id = "+req.params.id+" LIMIT 1;";
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 

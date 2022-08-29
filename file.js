@@ -26,7 +26,6 @@ const UGGroups = require('./routes/ugGroups.js');
 
 const Select = require('./select.js');
 
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -54,7 +53,6 @@ app.use('/',UGMembers);
 app.use('/',UGGroups);
 
 app.use('/',Select);
-
 
 const PORT = 8080;
 app.listen(PORT, function() {

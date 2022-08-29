@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const db = require('../connection.js');
+const {isList,isFilter,printList} = require('../functions.js');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,36 +14,11 @@ app.use(bodyParser.json());
 //Get list of all project daily work
 router.get('/_project_daily_work_list',(req,res) => {
 
-    const column = JSON.parse(req.query.filter);
-    var qryStr = "1 ";
-    const start = (JSON.parse(req.query.range)[0]);
-    const end = (JSON.parse(req.query.range)[1]);
-    const sortBy = (JSON.parse(req.query.sort)[0]);
-    const order = (JSON.parse(req.query.sort)[1]);
-
-    if(column!=null){
-        for(var head in column){
-            if(head==='user_id'||head==='pro_id'||head==='portion_id'){
-                qryStr += ("&& _project_daily_work."+head+"="+column[head]+" ");
-            }
-            else{
-                qryStr += ("&& "+head+"='"+column[head]+"' ");
-            }
-        }
-    }
-    const sqlQry = ("SELECT * FROM _view_project_daily_work_list WHERE ("+qryStr+") ORDER BY "+sortBy+
-        " "+order+" LIMIT "+(end-start+1)+" OFFSET "+start+";");
-    db.query(sqlQry, (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        console.log(new Date(Date.now()));
-        res.header('Content-Range',result.length);
-        res.send(result[0]);
-    }); 
+    printList(req,res,"_view_project_daily_work_list");
+     
 });
 //Create new project daily work
-router.post('/_project_daily_work',(req,res) => {
+router.post('/_project_daily_work_list',(req,res) => {
 
     const column = req.body;
     var qryStr = "(";
@@ -94,16 +70,16 @@ router.post('/_project_daily_work',(req,res) => {
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
 });
-//Get one project day protion
+//Get one project daily work
 router.get('/_project_daily_work_list/:id',(req,res) => {
     // console.log('oo');
 });
-//Update one project day protion
+//Update one project daily work
 router.put('/_project_daily_work_list/:id',(req,res) => {
 
     const column = req.body;
@@ -129,11 +105,11 @@ router.put('/_project_daily_work_list/:id',(req,res) => {
         }
     }
     sqlUpdateRow = sqlUpdateRow.slice(0, -1);
-    const sqlQry = ("UPDATE _project_daily_work SET "+sqlUpdateRow+" WHERE work_id="+req.body.id+";");
+    const sqlQry = ("UPDATE _project_daily_work SET "+sqlUpdateRow+" WHERE work_id="+req.params.id+";");
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     });
@@ -142,18 +118,15 @@ router.put('/_project_daily_work_list/:id',(req,res) => {
 //Delete project daily work
 router.delete('/_project_daily_work_list/:id',(req,res) => {
 
-    const sqlQry = "DELETE FROM _project_daily_work WHERE work_id = "+req.params.id+";";
+    const sqlQry = "DELETE FROM _project_daily_work WHERE work_id = "+req.params.id+" LIMIT 1;";
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
 });
-
-
-
-
 
 
 

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const db = require('../connection.js');
+const {printList,sendError} = require('../functions.js');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,27 +14,8 @@ app.use(bodyParser.json());
 //Get list of all directory
 router.get('/_directory_list',(req,res) => {
 
-    const column = JSON.parse(req.query.filter);
-    var qryStr = "1 ";
-    const start = (JSON.parse(req.query.range)[0]);
-    const end = (JSON.parse(req.query.range)[1]);
-    const sortBy = (JSON.parse(req.query.sort)[0]);
-    const order = (JSON.parse(req.query.sort)[1]);
-
-    if(column!=null){
-        for(var head in column){
-            qryStr += ("&& "+head+"='"+column[head]+"' ");
-        }
-    }
-    const sqlQry = ("SELECT * FROM _view_directory_list WHERE ("+qryStr+") ORDER BY "+sortBy+
-        " "+order+" LIMIT "+(end-start+1)+" OFFSET "+start+";");
-    db.query(sqlQry, (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        res.header('Content-Range',result.length);
-        res.send(result);
-    }); 
+    printList(req,res,"_view_directory_list");
+    
 });
 //Create new directory
 router.post('/_directory_list',(req,res) => {
@@ -66,11 +48,11 @@ router.post('/_directory_list',(req,res) => {
     qryStr = qryStr.slice(0, -1);
     qryStr += (")");
 
-    const sqlQry = "INSERT INTO _directory "+qryStr+";";   
+    const sqlQry = "INSERT INTO _directory "+qryStr+";";  
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
@@ -99,11 +81,11 @@ router.put('/_directory_list/:id',(req,res) => {
         }
     }
     sqlUpdateRow = sqlUpdateRow.slice(0, -1);
-    const sqlQry = ("UPDATE _directory SET "+sqlUpdateRow+" WHERE dir_id="+req.body.id+";");
+    const sqlQry = ("UPDATE _directory SET "+sqlUpdateRow+" WHERE dir_id="+req.params.id+";");
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     });
@@ -112,10 +94,11 @@ router.put('/_directory_list/:id',(req,res) => {
 //Delete project directory
 router.delete('/_directory_list/:id',(req,res) => {
 
-    const sqlQry = "DELETE FROM _directory WHERE dir_id = "+req.params.id+";";
+    const sqlQry = "DELETE FROM _directory WHERE dir_id = "+req.params.id+" LIMIT 1;";
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 

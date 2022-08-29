@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const db = require('../connection.js');
+const {printList,sendError} = require('../functions.js');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,29 +14,10 @@ app.use(bodyParser.json());
 //Get list of all login session
 router.get('/_login_session_list',(req,res) => {
 
-    const column = JSON.parse(req.query.filter);
-    var qryStr = "1 ";
-    const start = (JSON.parse(req.query.range)[0]);
-    const end = (JSON.parse(req.query.range)[1]);
-    const sortBy = (JSON.parse(req.query.sort)[0]);
-    const order = (JSON.parse(req.query.sort)[1]);
-
-    if(column!=null){
-        for(var head in column){
-            qryStr += ("&& "+head+"='"+column[head]+"' ");
-        }
-    }
-    const sqlQry = ("SELECT * FROM _view_login_session WHERE ("+qryStr+") ORDER BY "+sortBy+
-        " "+order+" LIMIT "+(end-start+1)+" OFFSET "+start+";");    
-    db.query(sqlQry, (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        res.header('Content-Range',result.length);
-        res.send(result);
-    }); 
+    printList(req,res,"_view_login_session_list");
+     
 });
-//Create new login session
+//Create new login session - not allowed
 router.post('/_login_session_list',(req,res) => {
 
     const column = req.body;
@@ -78,7 +60,7 @@ router.post('/_login_session_list',(req,res) => {
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
@@ -107,23 +89,24 @@ router.put('/_login_session_list/:id',(req,res) => {
         }
     }
     sqlUpdateRow = sqlUpdateRow.slice(0, -1);
-    const sqlQry = ("UPDATE _login_session SET "+sqlUpdateRow+" WHERE session_id="+req.body.id+";");
+    const sqlQry = ("UPDATE _login_session SET "+sqlUpdateRow+" WHERE session_id="+req.params.id+";");
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     });
  
 });
-//Delete login session
+//Delete login session - not allowed
 router.delete('/_login_session_list/:id',(req,res) => {
 
-    const sqlQry = "DELETE FROM _login_session WHERE session_id = "+req.params.id+";";
+    const sqlQry = "DELETE FROM _login_session WHERE session_id = "+req.params.id+" LIMIT 1;";
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const db = require('../connection.js');
+const {isList,isFilter,printList} = require('../functions.js');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,26 +14,8 @@ app.use(bodyParser.json());
 //Get list of all user group groups
 router.get('/_config_uggroups_list',(req,res) => {
 
-    const column = JSON.parse(req.query.filter);
-    var qryStr = "1 ";
-    const start = (JSON.parse(req.query.range)[0]);
-    const end = (JSON.parse(req.query.range)[1]);
-    const sortBy = (JSON.parse(req.query.sort)[0]);
-    const order = (JSON.parse(req.query.sort)[1]);
-
-    if(column!=null){
-        for(var head in column){
-            qryStr += ("&& "+head+"='"+column[head]+"' ");
-        }
-    }
-    const sqlQry = "CALL get_config_uggroups_list(\"("+qryStr+")\",\""+sortBy+"\",\""+order+"\","+start+","+end+");";
-    db.query(sqlQry, (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        res.header('Content-Range',result.length);
-        res.send(result[0]);
-    }); 
+    printList(req,res,"_view_config_uggroups_list");
+    
 });
 //Create new user group groups
 router.post('/_config_uggroups_list',(req,res) => {
@@ -59,7 +42,7 @@ router.post('/_config_uggroups_list',(req,res) => {
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
@@ -82,18 +65,20 @@ router.put('/_config_uggroups_list/:id',(req,res) => {
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
-            res.send('Something went wrong. Please try again.');
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
+        res.send(result);
     }); 
  
 });
 //Delete project user group groups
 router.delete('/_config_uggroups_list/:id',(req,res) => {
 
-    const sqlQry = "DELETE FROM _config_uggroups WHERE GroupID = "+req.params.id+";";
+    const sqlQry = "DELETE FROM _config_uggroups WHERE GroupID = "+req.params.id+" LIMIT 1;";
     db.query(sqlQry, (error, result) => {
         if(error){
             console.log(error);
+            res.send(JSON.stringify(sendError(error.errno,error.sqlMessage)));
         }
         res.send(result);
     }); 
